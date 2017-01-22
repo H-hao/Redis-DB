@@ -83,5 +83,5 @@
 	</aop:config>
 
 	<import resource="classpath:applicationContext-user.xml" />
-	
+<!-- 	<import resource="classpath:applicationContext-dept.xml" /> -->
 </beans>

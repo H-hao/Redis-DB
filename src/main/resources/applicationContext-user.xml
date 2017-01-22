@@ -16,17 +16,17 @@
 			http://www.springframework.org/schema/tx 
 			http://www.springframework.org/schema/tx/spring-tx.xsd">
 	
-	<bean id="userFinalDao" class="cn.hh.study.spring_data.redis.dao.impl.UserFinalDaoImpl">
+<!-- 	<bean id="userFinalDao" class="cn.hh.study.spring_data.redis.dao.impl.UserFinalDaoImpl"> -->
 <!-- 		<property name="userRedisDao" ref="userRedisDao"></property> -->
 <!-- 		<property name="userDBDao" ref="userDBDao"></property> -->
-	</bean>
+<!-- 	</bean> -->
 	
-	<bean id="userRedisDao" class="cn.hh.study.spring_data.redis.dao.impl.UserRedisDaoImpl">
-	</bean>
+<!-- 	<bean id="userRedisDao" class="cn.hh.study.spring_data.redis.dao.impl.UserRedisDaoImpl"> -->
+<!-- 	</bean> -->
 	
-	<bean id="userDBDao" class="cn.hh.study.spring_data.redis.dao.impl.UserDBDaoImpl">
-		<property name="sessionFactory" ref="sessionFactory"></property>
-	</bean>
+<!-- 	<bean id="userDBDao" class="cn.hh.study.spring_data.redis.dao.impl.UserDBDaoImpl"> -->
+<!-- 		<property name="sessionFactory" ref="sessionFactory"></property> -->
+<!-- 	</bean> -->
 	
 
 </beans>

@@ -1,10 +1,12 @@
 package cn.hh.study.spring_data.redis.dao.impl;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Repository;
 
 import cn.hh.study.spring_data.redis.dao.IUserDao;
 import cn.hh.study.spring_data.redis.domain.User;
 
+@Repository("userFinalDao")
 public class UserFinalDaoImpl implements IUserDao {
 	@Autowired
 	private IUserDao userRedisDao;
@@ -19,6 +21,7 @@ public class UserFinalDaoImpl implements IUserDao {
 		// redis 缓存中不应该有很重要的数据，或者说容易出现安全性问题的数据
 
 		userRedisDao.save(user);
+
 		userDBDao.save(user);
 	}
 

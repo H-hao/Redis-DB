@@ -7,11 +7,12 @@ import org.springframework.dao.DataAccessException;
 import org.springframework.data.redis.connection.RedisConnection;
 import org.springframework.data.redis.core.RedisCallback;
 import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.stereotype.Repository;
 
 import cn.hh.study.spring_data.redis.dao.IUserDao;
 import cn.hh.study.spring_data.redis.domain.User;
 
-//@Repository
+@Repository("userRedisDao")
 public class UserRedisDaoImpl implements IUserDao {
 
 	@Autowired
