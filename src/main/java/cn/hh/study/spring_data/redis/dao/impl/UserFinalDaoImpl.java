@@ -18,6 +18,8 @@ public class UserFinalDaoImpl implements IUserDao {
 		// 如果出现异常,通过redis的持久化恢复数据
 		// redis 缓存中不应该有很重要的数据，或者说容易出现安全性问题的数据
 
+		userRedisDao.save(user);
+		userDBDao.save(user);
 	}
 
 	@Override
