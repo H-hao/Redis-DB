@@ -1,27 +1,22 @@
 package cn.hh.study.spring_data.redis.dao.impl;
 
-import javax.annotation.Resource;
-
-import org.hibernate.SessionFactory;
+import org.springframework.orm.hibernate3.support.HibernateDaoSupport;
 import org.springframework.stereotype.Repository;
 
 import cn.hh.study.spring_data.redis.dao.IUserDao;
 import cn.hh.study.spring_data.redis.domain.User;
 
 @Repository("userDBDao")
-public class UserDBDaoImpl implements IUserDao {
-
-	@Resource
-	private SessionFactory sessionFactory;
+public class UserDBDaoImpl extends HibernateDaoSupport implements IUserDao {
 
 	@Override
 	public void save(User user) {
-		sessionFactory.getCurrentSession().save(user);
+		getHibernateTemplate().save(user);
 	}
 
 	@Override
 	public User findOne(Long id) {
-		return (User) sessionFactory.getCurrentSession().get(User.class, id);
+		return getHibernateTemplate().get(User.class, id);
 	}
 
 }

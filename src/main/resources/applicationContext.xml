@@ -19,7 +19,7 @@
 
 	<context:property-placeholder location="classpath:jdbc.properties" />
 	
-	<context:component-scan base-package="cn.hh.study.spring_data.redis." />
+	<context:component-scan base-package="cn.hh.study.spring_data.redis" />
 	
 	<bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource"
 		destroy-method="close" p:driverClassName="${jdbc.driverClassName}"
@@ -36,6 +36,8 @@
 				<prop key="hibernate.show_sql">${hibernate.show_sql}</prop>
 				<!-- <prop key="hibernate.format_sql">${hibernate.format_sql}</prop> -->
 				<prop key="hibernate.hbm2ddl">${hibernate.hbm2ddl}</prop>
+				<!-- 为了测试不抛出没有session -->
+				<prop key="hibernate.current_session_context_class">${hibernate.current_session_context_class}</prop>
 			</props>
 		</property>
 	</bean>
@@ -81,6 +83,10 @@
 		<aop:advisor advice-ref="txAdvice"
 			pointcut="execution(* cn.hh.study.spring_data.redis.service.I*Service.*(..))" />
 	</aop:config>
+	
+	<bean id="baseDBDao" class="cn.hh.study.spring_data.redis.dao.impl.BaseDBDaoImpl">
+		<property name="sessionFactory" ref="sessionFactory"></property>
+	</bean>
 
 	<import resource="classpath:applicationContext-user.xml" />
 <!-- 	<import resource="classpath:applicationContext-dept.xml" /> -->

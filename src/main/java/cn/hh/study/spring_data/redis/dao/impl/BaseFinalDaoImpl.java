@@ -1,33 +1,36 @@
 package cn.hh.study.spring_data.redis.dao.impl;
 
 import java.io.Serializable;
+import java.lang.reflect.Method;
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
+import java.util.List;
 
 import javax.annotation.Resource;
 
-import org.springframework.context.annotation.DependsOn;
-
 import cn.hh.study.spring_data.redis.dao.IBaseDao;
+import cn.hh.study.spring_data.redis.util.CachePropUtil;
 import cn.hh.study.spring_data.redis.util.HibernateConfigurationUtil;
 
 //@Repository("baseFinalDao")
-@DependsOn(value = { "baseDBDao", "baseRedisDao", "HibernateConfigurationUtil" })
+//@DependsOn(value = { "baseDBDao", "baseRedisDao", "HibernateConfigurationUtil" })
 public abstract class BaseFinalDaoImpl<T, ID extends Serializable> implements IBaseDao<T, ID> {
 
 	// 是否需要使用缓存 -- 可以通过构造方法类配置,或者通过配置文件来进行配置
 	protected boolean needCache = false;
-
+	public static final String NEED_CACHE = "needCache";
 	private Class<T> clz;
 
-	private String idName;
+	protected String idName;
+
+	protected Method idReadMethod;
 
 	private IBaseDao<T, Serializable> baseDBDao;
 
 	private IBaseDao<T, Serializable> baseRedisDao;
 
 	public BaseFinalDaoImpl() {
-		System.out.println("初始化。。。。baseFinaldaoIml");
+		System.out.println("初始化......baseFinaldaoIml");
 		// ------------------初始化为 clz 赋值
 		// 获取当前运行时类
 		Class<?> clazz = getClass();
@@ -39,10 +42,23 @@ public abstract class BaseFinalDaoImpl<T, ID extends Serializable> implements IB
 			clz = (Class<T>) ((ParameterizedType) superclass).getActualTypeArguments()[0];
 		}
 		System.out.println("获取到泛型类型名称------" + clz.getSimpleName());
+		// 根据泛型名称设置是否需要使用缓存
+		List<String> needCaches = CachePropUtil.getPropValue(BaseFinalDaoImpl.NEED_CACHE);
+		if (needCaches != null && !needCaches.isEmpty() && needCaches.contains(clz.getSimpleName())) {
+			System.out.println("已设置 -- needCache = true");
+			needCache = true;
+		}
 		// ------------------初始化为 idName 赋值
-		// hibernate 的 configuration 对象
 		idName = HibernateConfigurationUtil.getPKColumnName(clz);
 		System.out.println("获取到主键名称------" + idName);
+
+		try {
+			idReadMethod = clz.getMethod("get" + idName.substring(0, 1).toUpperCase() + idName.substring(1));
+		} catch (NoSuchMethodException e) {
+			e.printStackTrace();
+		} catch (SecurityException e) {
+			e.printStackTrace();
+		}
 	}
 
 	@Override
@@ -82,11 +98,14 @@ public abstract class BaseFinalDaoImpl<T, ID extends Serializable> implements IB
 
 	@Override
 	public void setClz(Class<T> clz) {
-		this.clz = clz;
 	}
 
 	@Override
 	public void setIdName(String idName) {
+	}
+
+	@Override
+	public void setIdReadMethod(Method idReadMethod) {
 	}
 
 	public void setNeedRedis(boolean needRedis) {
@@ -98,6 +117,7 @@ public abstract class BaseFinalDaoImpl<T, ID extends Serializable> implements IB
 		this.baseRedisDao = baseRedisDao;
 		this.baseRedisDao.setClz(clz);
 		this.baseRedisDao.setIdName(idName);
+		this.baseRedisDao.setIdReadMethod(idReadMethod);
 	}
 
 	@Resource

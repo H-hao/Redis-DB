@@ -1,10 +1,8 @@
 package cn.hh.study.spring_data.redis.test;
 
+import javax.annotation.Resource;
+
 import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import cn.hh.study.spring_data.redis.dao.IUserDao;
 import cn.hh.study.spring_data.redis.domain.User;
@@ -14,11 +12,9 @@ import cn.hh.study.spring_data.redis.domain.User;
  * @author a
  * 
  */
-@RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration("classpath:applicationContext.xml")
-public class RedisTest {
+public class RedisTest extends BaseTest {
 
-	@Autowired
+	@Resource(name = "userFinalDao")
 	private IUserDao userDao;
 
 	@Test

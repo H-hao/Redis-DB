@@ -24,9 +24,9 @@
 <!-- 	<bean id="userRedisDao" class="cn.hh.study.spring_data.redis.dao.impl.UserRedisDaoImpl"> -->
 <!-- 	</bean> -->
 	
-<!-- 	<bean id="userDBDao" class="cn.hh.study.spring_data.redis.dao.impl.UserDBDaoImpl"> -->
-<!-- 		<property name="sessionFactory" ref="sessionFactory"></property> -->
-<!-- 	</bean> -->
+	<bean id="userDBDao" class="cn.hh.study.spring_data.redis.dao.impl.UserDBDaoImpl">
+		<property name="sessionFactory" ref="sessionFactory"></property>
+	</bean>
 	
 
 </beans>

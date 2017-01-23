@@ -1,18 +1,17 @@
 package cn.hh.study.spring_data.redis.dao.impl;
 
 import java.io.Serializable;
+import java.lang.reflect.Method;
 
-import javax.annotation.Resource;
-
-import org.hibernate.SessionFactory;
 import org.springframework.context.annotation.DependsOn;
-import org.springframework.stereotype.Repository;
+import org.springframework.orm.hibernate3.support.HibernateDaoSupport;
 
 import cn.hh.study.spring_data.redis.dao.IBaseDao;
 
-@Repository("baseDBDao")
+//@Repository("baseDBDao")
 @DependsOn(value = { "HibernateConfigurationUtil" })
-public class BaseDBDaoImpl<T, ID extends Serializable> implements IBaseDao<T, ID> {
+// 注解不能注入到父类中sessionfactory,只能使用xml配置
+public class BaseDBDaoImpl<T, ID extends Serializable> extends HibernateDaoSupport implements IBaseDao<T, ID> {
 
 	private Class<T> clz;
 
@@ -25,8 +24,9 @@ public class BaseDBDaoImpl<T, ID extends Serializable> implements IBaseDao<T, ID
 	public void setIdName(String idName) {
 	}
 
-	@Resource
-	private SessionFactory sessionFactory;
+	@Override
+	public void setIdReadMethod(Method idReadMethod) {
+	}
 
 	public BaseDBDaoImpl() {
 		System.out.println("初始化.....BaseDBDaoImpl");
@@ -34,12 +34,12 @@ public class BaseDBDaoImpl<T, ID extends Serializable> implements IBaseDao<T, ID
 
 	@Override
 	public void save(T t) {
-		sessionFactory.getCurrentSession().save(t);
+		getHibernateTemplate().save(t);
 	}
 
 	@Override
 	public T findOne(ID id) {
-		return (T) sessionFactory.getCurrentSession().get(clz, id);
+		return getHibernateTemplate().get(clz, id);
 	}
 
 }
