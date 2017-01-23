@@ -3,6 +3,7 @@ package cn.hh.study.spring_data.redis.dao.impl;
 import java.io.Serializable;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.DependsOn;
 import org.springframework.dao.DataAccessException;
 import org.springframework.data.redis.connection.RedisConnection;
 import org.springframework.data.redis.core.RedisCallback;
@@ -14,6 +15,7 @@ import com.google.gson.Gson;
 import cn.hh.study.spring_data.redis.dao.IBaseDao;
 
 @Repository("baseRedisDao")
+@DependsOn(value = { "HibernateConfigurationUtil" })
 public class BaseRedisDaoImpl<T, ID extends Serializable> implements IBaseDao<T, ID> {
 	// 以一定的格式进行存储(对象类型:对象主键:对象json)
 	// clz.getSimpleName+":"+idName+

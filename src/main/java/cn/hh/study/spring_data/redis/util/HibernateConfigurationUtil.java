@@ -2,6 +2,8 @@ package cn.hh.study.spring_data.redis.util;
 
 import java.util.Iterator;
 
+import javax.annotation.Resource;
+
 import org.hibernate.cfg.Configuration;
 import org.hibernate.mapping.Column;
 import org.hibernate.mapping.PersistentClass;
@@ -10,13 +12,13 @@ import org.springframework.context.annotation.DependsOn;
 import org.springframework.orm.hibernate3.LocalSessionFactoryBean;
 import org.springframework.stereotype.Component;
 
-@Component
+@Component("HibernateConfigurationUtil")
 @DependsOn("SpringApplicationContextUtil")
 public class HibernateConfigurationUtil {
 	private static Configuration configuration;
 
-	// @Resource
-	// private SpringApplicationContextUtil applicationContextUtil;
+	@Resource
+	private SpringApplicationContextUtil applicationContextUtil;
 
 	public HibernateConfigurationUtil() {
 		System.out.println("HibernateConfigurationUtil。。。初始化");

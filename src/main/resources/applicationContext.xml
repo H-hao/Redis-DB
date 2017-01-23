@@ -19,7 +19,7 @@
 
 	<context:property-placeholder location="classpath:jdbc.properties" />
 	
-	<context:component-scan base-package="cn.hh.study.spring_data.redis" />
+	<context:component-scan base-package="cn.hh.study.spring_data.redis." />
 	
 	<bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource"
 		destroy-method="close" p:driverClassName="${jdbc.driverClassName}"

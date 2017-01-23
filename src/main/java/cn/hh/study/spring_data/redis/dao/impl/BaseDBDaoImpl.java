@@ -5,11 +5,13 @@ import java.io.Serializable;
 import javax.annotation.Resource;
 
 import org.hibernate.SessionFactory;
+import org.springframework.context.annotation.DependsOn;
 import org.springframework.stereotype.Repository;
 
 import cn.hh.study.spring_data.redis.dao.IBaseDao;
 
 @Repository("baseDBDao")
+@DependsOn(value = { "HibernateConfigurationUtil" })
 public class BaseDBDaoImpl<T, ID extends Serializable> implements IBaseDao<T, ID> {
 
 	private Class<T> clz;

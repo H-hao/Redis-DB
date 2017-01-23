@@ -6,11 +6,13 @@ import java.lang.reflect.Type;
 
 import javax.annotation.Resource;
 
+import org.springframework.context.annotation.DependsOn;
+
 import cn.hh.study.spring_data.redis.dao.IBaseDao;
 import cn.hh.study.spring_data.redis.util.HibernateConfigurationUtil;
 
 //@Repository("baseFinalDao")
-//@DependsOn(value = { "baseDBDao", "baseRedisDao", "HibernateConfigurationUtil" })
+@DependsOn(value = { "baseDBDao", "baseRedisDao", "HibernateConfigurationUtil" })
 public abstract class BaseFinalDaoImpl<T, ID extends Serializable> implements IBaseDao<T, ID> {
 
 	// 是否需要使用缓存 -- 可以通过构造方法类配置,或者通过配置文件来进行配置
